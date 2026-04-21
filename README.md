@@ -1,6 +1,93 @@
 # 🧠 MedResearch AI — Intelligent Medical Research Assistant
 
-A production-grade MERN stack application that retrieves, ranks, and reasons over hundreds of real scientific papers and clinical trials using open-source LLMs. **Not a chatbot — a research reasoning system.**
+> Intelligent Medical Research Assistant powered by AI, real scientific sources, and full-stack engineering.
+
+MedResearch AI is a production-grade MERN stack platform that retrieves, ranks, and summarizes **real medical research papers** and **clinical trials** using open-source LLMs. It is designed to help users explore evidence-based healthcare information faster and smarter.
+
+
+![GitHub stars](https://img.shields.io/github/stars/yourusername/medresearch-ai?style=social)
+![GitHub forks](https://img.shields.io/github/forks/yourusername/medresearch-ai?style=social)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![MERN Stack](https://img.shields.io/badge/stack-MERN-green)
+![AI Powered](https://img.shields.io/badge/AI-Ollama-orange)
+
+
+# ✨ Key Features
+
+## 🔍 Smart Query Understanding
+- Detects disease / condition names
+- Understands treatment, diagnosis, prevention intent
+- Supports follow-up questions with memory context
+- Expands search terms with medical synonyms
+
+## 📚 Multi-Source Research Retrieval
+Fetches real data from:
+
+- PubMed
+- OpenAlex
+- ClinicalTrials.gov
+
+## 📈 Intelligent Ranking Engine
+Ranks results using:
+
+- TF-IDF relevance scoring
+- Keyword similarity
+- Recency weighting
+- Citation impact
+- Source credibility
+- Duplicate removal
+
+## 🤖 AI-Powered Evidence Summaries
+Uses local/open-source LLMs through Ollama to generate:
+
+- Condition overview
+- Treatment insights
+- Risks & side effects
+- Latest evidence
+- Research trends
+
+## 💬 Conversational Search
+Supports multi-turn sessions:
+
+User: Lung cancer treatments  
+User: What about Vitamin D?
+
+System understands follow-up context.
+
+## ⚡ High Performance Backend
+- Parallel API fetching
+- Smart caching
+- Fault-tolerant pipelines
+- Fast response times
+
+---
+
+# 🏗️ Tech Stack
+
+## Frontend
+- React.js
+- Axios
+- CSS / Responsive UI
+
+## Backend
+- Node.js
+- Express.js
+
+## Database
+- MongoDB
+
+## AI Layer
+- Ollama
+- Llama / Mistral models
+
+## APIs
+- PubMed API
+- OpenAlex API
+- ClinicalTrials.gov API
+
+---
+
+
 
 ---
 
@@ -393,11 +480,3 @@ docker build -t medresearch-frontend ./frontend
 | `CACHE_TTL_SECONDS` | 3600 | Cache TTL (1 hour) |
 
 ---
-
-## ⚠️ Disclaimers
-
-- This system is for **research and informational purposes only**
-- It does **not** provide medical advice
-- All LLM outputs are grounded in retrieved sources — hallucinations are minimized but not impossible
-- Always consult qualified healthcare professionals for medical decisions
-- PubMed/OpenAlex/ClinicalTrials.gov data is provided under their respective terms of service
