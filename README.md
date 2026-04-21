@@ -3,90 +3,87 @@
 > Intelligent Medical Research Assistant powered by AI, real scientific sources, and full-stack engineering.
 
 MedResearch AI is a production-grade MERN stack platform that retrieves, ranks, and summarizes **real medical research papers** and **clinical trials** using open-source LLMs. It is designed to help users explore evidence-based healthcare information faster and smarter.
+---
 
+## 🚀 Overview
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/medresearch-ai?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/medresearch-ai?style=social)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![MERN Stack](https://img.shields.io/badge/stack-MERN-green)
-![AI Powered](https://img.shields.io/badge/AI-Ollama-orange)
+MedResearch AI is a full-stack healthcare research platform that helps users explore medical evidence faster by combining:
 
+- 📚 Real research papers  
+- 🧪 Clinical trials  
+- 🤖 AI-generated summaries  
+- 🔍 Smart medical query understanding  
 
-# ✨ Key Features
+Instead of manually searching multiple sources, users can ask one question and receive structured, evidence-backed insights.
 
-## 🔍 Smart Query Understanding
-- Detects disease / condition names
-- Understands treatment, diagnosis, prevention intent
-- Supports follow-up questions with memory context
-- Expands search terms with medical synonyms
+---
 
-## 📚 Multi-Source Research Retrieval
-Fetches real data from:
+## ✨ Key Features
 
-- PubMed
-- OpenAlex
+### 🔍 Smart Search Intelligence
+- Detects diseases, symptoms, treatments, conditions
+- Understands follow-up questions with memory
+- Expands search using medical synonyms
+
+### 📚 Multi-Source Evidence Retrieval
+Aggregates real data from:
+
+- PubMed  
+- OpenAlex  
 - ClinicalTrials.gov
 
-## 📈 Intelligent Ranking Engine
-Ranks results using:
+### 📈 Intelligent Ranking Engine
+Ranks studies using:
 
-- TF-IDF relevance scoring
-- Keyword similarity
-- Recency weighting
-- Citation impact
-- Source credibility
-- Duplicate removal
+- TF-IDF relevance scoring  
+- Citation impact  
+- Recency weighting  
+- Duplicate filtering  
+- Source credibility  
 
-## 🤖 AI-Powered Evidence Summaries
-Uses local/open-source LLMs through Ollama to generate:
+### 🤖 AI Summaries with Local LLMs
+Powered by Ollama + open-source models:
 
-- Condition overview
-- Treatment insights
-- Risks & side effects
-- Latest evidence
-- Research trends
+- Condition overview  
+- Treatment insights  
+- Risks / side effects  
+- Latest findings  
+- Clinical relevance  
 
-## 💬 Conversational Search
-Supports multi-turn sessions:
-
-User: Lung cancer treatments  
-User: What about Vitamin D?
-
-System understands follow-up context.
-
-## ⚡ High Performance Backend
-- Parallel API fetching
-- Smart caching
-- Fault-tolerant pipelines
-- Fast response times
+### ⚡ Production Backend
+- Parallel API fetching  
+- Fast caching system  
+- Fault-tolerant pipelines  
+- Optimized response times  
 
 ---
 
-# 🏗️ Tech Stack
+## 🏗️ Tech Stack
 
-## Frontend
-- React.js
-- Axios
-- CSS / Responsive UI
-
-## Backend
-- Node.js
-- Express.js
-
-## Database
-- MongoDB
-
-## AI Layer
-- Ollama
-- Llama / Mistral models
-
-## APIs
-- PubMed API
-- OpenAlex API
-- ClinicalTrials.gov API
+| Layer | Technologies |
+|------|--------------|
+| Frontend | React.js, Axios, CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB |
+| AI Layer | Ollama, Llama, Mistral |
+| APIs | PubMed, OpenAlex, ClinicalTrials.gov |
 
 ---
 
+## 🧠 Architecture
+
+```text
+User Query
+   ↓
+Query Understanding Engine
+   ↓
+PubMed + OpenAlex + Trials APIs
+   ↓
+Ranking & Deduplication Engine
+   ↓
+AI Summary Generator
+   ↓
+Structured Research Output
 
 
 ---
