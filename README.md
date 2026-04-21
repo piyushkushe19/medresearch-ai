@@ -216,265 +216,45 @@ Open **http://localhost:3000**
 
 ---
 
-## 📡 API Documentation
+## 🌐 Local URLs
 
-### Base URL
-```
-http://localhost:5000/api
-```
+| Service  | URL                    |
+|----------|------------------------|
+| Frontend | http://localhost:3000 |
+| Backend  | http://localhost:5001 |
 
-### `POST /api/query`
-Run the full research pipeline.
+---
 
-**Request:**
-```json
-{
-  "query": "deep brain stimulation Parkinson's disease",
-  "context": {
-    "disease": "Parkinson's disease",
-    "intent": "treatment"
-  }
-}
+## 📡 Core Endpoints
+
+```http
+POST /api/query
+POST /api/chat
+GET  /api/research?q=...
+GET  /api/trials?q=...
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "query": {
-      "original": "deep brain stimulation Parkinson's disease",
-      "disease": "Parkinson's disease",
-      "intent": "treatment",
-      "diseaseExpansions": ["Parkinson's disease", "parkinsonism", "PD"],
-      "searchQueries": { "pubmed": "...", "openAlex": "..." }
-    },
-    "papers": [
-      {
-        "id": "pubmed_12345678",
-        "title": "Deep Brain Stimulation for Parkinson Disease...",
-        "authors": ["Smith J", "Jones A"],
-        "year": 2023,
-        "journal": "New England Journal of Medicine",
-        "abstract": "...",
-        "keywords": ["Parkinson disease", "DBS"],
-        "url": "https://pubmed.ncbi.nlm.nih.gov/12345678/",
-        "source": "PubMed",
-        "relevanceScore": 87
-      }
-    ],
-    "trials": [
-      {
-        "nctId": "NCT04567890",
-        "title": "DBS for Advanced Parkinson's",
-        "status": "RECRUITING",
-        "phase": "3",
-        "eligibility": { "minAge": "18 Years", "maxAge": "75 Years" },
-        "locations": [{ "city": "Boston", "country": "United States" }],
-        "contact": { "email": "trials@hospital.edu" },
-        "url": "https://clinicaltrials.gov/study/NCT04567890"
-      }
-    ],
-    "aiSummary": "## CONDITION OVERVIEW\n...",
-    "metadata": {
-      "totalRawPapers": 187,
-      "finalPapers": 8,
-      "finalTrials": 5,
-      "llmModel": "llama3.2",
-      "usedLLM": true,
-      "totalTimeMs": 8432
-    }
-  }
-}
-```
+## 💡 Why This Project Matters
 
----
+- Medical information is scattered across multiple platforms and often difficult to understand.
 
-### `POST /api/chat`
-Multi-turn conversational interface with session memory.
+- MedResearch AI simplifies access to trusted evidence by combining research retrieval with AI reasoning.
 
-**Request:**
-```json
-{
-  "message": "lung cancer immunotherapy",
-  "sessionId": "550e8400-e29b-41d4-a716-446655440000"
-}
-```
+## 🚀 Future Improvements
+- User authentication
+- Saved reports / bookmarks
+- PDF exports
+- Citation graphs
+- Voice search
+- Live deployment
+- RAG source highlighting
 
-**Response:** Same structure as `/api/query` plus `sessionId` and `queryType` ("new" | "followup").
+## ⚠️ Disclaimer
 
----
+- This platform is for research and educational purposes only.
+- Not medical advice
+- Not a replacement for doctors
+- Always consult healthcare professionals for decisions
 
-### `GET /api/research?q=...&source=all&limit=8`
-Direct research retrieval (no LLM reasoning).
-
-| Param | Values | Default |
-|-------|--------|---------|
-| q | search query | required |
-| source | `pubmed`, `openalex`, `all` | `all` |
-| limit | 1–20 | 8 |
-
----
-
-### `GET /api/trials?q=...&location=...&limit=5`
-Direct clinical trials search.
-
-| Param | Description |
-|-------|-------------|
-| q | condition/disease |
-| location | filter by country/city |
-| limit | max results |
-
----
-
-### `GET /api/query/understand?q=...`
-Inspect query parsing without running pipeline.
-
----
-
-### `GET /api/chat/:sessionId/history`
-Get conversation history for a session.
-
----
-
-### `DELETE /api/chat/:sessionId`
-Clear a session.
-
----
-
-## 🧩 Architecture Decisions
-
-### Why keyword search over vector embeddings?
-- **No GPU required** — runs on any machine
-- **Medical synonyms** are handled explicitly in `queryUnderstanding.js` with domain knowledge
-- **TF-IDF + Jaccard** scores are interpretable and auditable
-- Vector embeddings can be added later by replacing `rankingEngine.js`
-
-### Why Ollama over HuggingFace Inference API?
-- **Fully local** — no API keys, no rate limits, no data leaving your machine
-- **HIPAA-friendly** for real-world deployment
-- Easily swappable: change `OLLAMA_MODEL` in `.env`
-
-### Why in-memory caching over Redis?
-- `node-cache` handles single-instance deployment well
-- Results TTL = 1 hour (configurable via `CACHE_TTL_SECONDS`)
-- Redis can replace this for multi-instance deployment
-
-### Why parallel retrieval?
-```js
-const [pubmed, openAlex, trials] = await Promise.allSettled([...])
-```
-- Cuts total retrieval time from ~12s → ~4s
-- `allSettled` ensures one failing API doesn't break the whole pipeline
-
----
-
-## 📊 Sample Queries & Expected Output
-
-| Query | Disease Extracted | Intent | Papers | Trials |
-|-------|------------------|--------|--------|--------|
-| `Parkinson's disease deep brain stimulation` | Parkinson's disease | treatment | 8 | 5 |
-| `BRCA2 mutation breast cancer risk` | breast cancer | diagnosis | 8 | 3 |
-| `COVID-19 long COVID neurological symptoms` | COVID-19 | general | 8 | 5 |
-| `type 2 diabetes GLP-1 agonist outcomes` | diabetes mellitus | treatment | 8 | 5 |
-| `Alzheimer biomarkers blood test diagnosis` | Alzheimer's disease | diagnosis | 7 | 4 |
-
-### Follow-up Query Example
-```
-User:  "lung cancer treatments"
-→ Disease context set to: lung cancer
-
-User:  "what about vitamin D?"
-→ System detects follow-up, expands to:
-   "vitamin D lung cancer treatment"
-→ Results maintain lung cancer context
-```
-
----
-
-## 📁 Folder Structure
-
-```
-medical-research-assistant/
-├── backend/
-│   ├── src/
-│   │   ├── server.js              # Express app entry point
-│   │   ├── config/
-│   │   │   └── database.js        # MongoDB connection
-│   │   ├── routes/
-│   │   │   ├── query.js           # POST /api/query
-│   │   │   ├── chat.js            # POST /api/chat
-│   │   │   ├── research.js        # GET /api/research
-│   │   │   └── trials.js          # GET /api/trials
-│   │   ├── services/
-│   │   │   ├── queryUnderstanding.js   # NLP + query expansion
-│   │   │   ├── researchPipeline.js     # Main orchestrator
-│   │   │   └── chatService.js          # Session management
-│   │   ├── retrieval/
-│   │   │   ├── pubmedRetrieval.js      # PubMed E-utilities API
-│   │   │   ├── openAlexRetrieval.js    # OpenAlex API
-│   │   │   ├── clinicalTrialsRetrieval.js  # ClinicalTrials.gov v2
-│   │   │   └── rankingEngine.js        # Scoring + dedup + ranking
-│   │   ├── ai/
-│   │   │   └── ollamaService.js        # Ollama LLM integration
-│   │   ├── models/
-│   │   │   └── Conversation.js         # MongoDB conversation schema
-│   │   ├── middleware/
-│   │   │   └── errorHandler.js
-│   │   └── utils/
-│   │       └── logger.js               # Winston logger
-│   ├── .env.example
-│   └── package.json
-│
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── App.js                 # Root component + layout
-│   │   ├── App.css                # Global design system
-│   │   ├── index.js
-│   │   ├── services/
-│   │   │   └── api.js             # Axios API client
-│   │   └── components/
-│   │       ├── ChatInterface.js   # Message input + display
-│   │       ├── ResultsPanel.js    # Tabbed results container
-│   │       ├── PaperCard.js       # Research paper display
-│   │       ├── TrialCard.js       # Clinical trial display
-│   │       ├── AISummary.js       # AI-generated insights
-│   │       └── Sidebar.js         # Session history sidebar
-│   └── package.json
-│
-└── README.md
-```
-
----
-
-## 🐳 Docker Deployment
-
-```bash
-# Run everything with Docker Compose
-docker compose up
-
-# Or build individually
-docker build -t medresearch-backend ./backend
-docker build -t medresearch-frontend ./frontend
-```
-
----
-
-## ⚙️ Configuration Reference
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | 5000 | Backend port |
-| `MONGODB_URI` | localhost:27017 | MongoDB connection |
-| `OLLAMA_BASE_URL` | localhost:11434 | Ollama server URL |
-| `OLLAMA_MODEL` | llama3.2 | Model to use |
-| `PUBMED_API_KEY` | — | Optional (increases rate limit from 3→10 req/s) |
-| `CONTACT_EMAIL` | — | Required for OpenAlex polite pool |
-| `MAX_RAW_RESULTS_PER_SOURCE` | 100 | Raw papers per source |
-| `FINAL_PAPERS_COUNT` | 8 | Papers in final output |
-| `FINAL_TRIALS_COUNT` | 5 | Trials in final output |
-| `CACHE_TTL_SECONDS` | 3600 | Cache TTL (1 hour) |
-
----
+# 🧠 MedResearch AI
+> Search Smarter. Learn Faster. Trust Evidence.
