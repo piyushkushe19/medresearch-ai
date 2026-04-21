@@ -90,7 +90,7 @@ Structured Research Output
 
 ## 🏗️ Architecture Overview
 
-```
+```bash
 User Query
     │
     ▼
@@ -134,6 +134,7 @@ User Query
                        │
                        ▼
           Structured Medical Research Report
+
 ```
 
 ---
