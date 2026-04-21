@@ -2,7 +2,7 @@
 
 > Intelligent Medical Research Assistant powered by AI, real scientific sources, and full-stack engineering.
 
-MedResearch AI is a production-grade MERN stack platform that retrieves, ranks, and summarizes **real medical research papers** and **clinical trials** using open-source LLMs. It is designed to help users explore evidence-based healthcare information faster and smarter.
+> MedResearch AI is a production-grade MERN stack platform that retrieves, ranks, and summarizes **real medical research papers** and **clinical trials** using open-source LLMs. It is designed to help users explore evidence-based healthcare information faster and smarter.
 ---
 
 ## 🚀 Overview
